@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(isset($_SESSION['S_ID_ACCESO'])){
+if(isset($_SESSION['S_ID_USUARIO'])){
 	header('Location: ../vista/index.php');
 }
 ?>

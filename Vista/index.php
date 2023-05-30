@@ -1,7 +1,7 @@
 <?php
 session_start();
-if(!isset($_SESSION['S_ID_ACCESO'])){
-	header('Location: ../Login/index.php');
+if (!isset($_SESSION['S_ID_USUARIO'])) {
+    header('Location: ../Login/index.php');
 }
 ?>
 <!DOCTYPE html>
@@ -35,6 +35,8 @@ if(!isset($_SESSION['S_ID_ACCESO'])){
     <link rel="stylesheet" href="../Plantilla/bower_components/bootstrap-daterangepicker/daterangepicker.css">
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="../Plantilla/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <link rel="stylesheet" href="../Plantilla/plugins/DataTables/datatables.min.css">
+    <link rel="stylesheet" href="../Plantilla/plugins/select2/select2.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -47,13 +49,18 @@ if(!isset($_SESSION['S_ID_ACCESO'])){
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
+<style>
+    .swal2-popup {
+        font-size: 1.6rem !important;
+    }
+</style>
 
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
         <header class="main-header">
             <!-- Logo -->
-            <a href="index2.html" class="logo">
+            <a href="index.php" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>P</b>G</span>
                 <!-- logo for regular state and mobile devices -->
@@ -278,33 +285,21 @@ if(!isset($_SESSION['S_ID_ACCESO'])){
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="https://static.vecteezy.com/ti/vecteur-libre/p1/4773704-un-visage-de-fille-avec-un-beau-sourire-un-avatar-femme-pour-un-site-web-et-un-reseau-social-vectoriel.jpg" class="user-image" alt="User Image">
-                                <span class="hidden-xs"><?php echo $_SESSION['S_NOMBRE_USUARIO'];?></span>
+                                <img src="https://static.vecteezy.com/ti/vecteur-libre/p1/4773704-un-visage-de-fille-avec-un-beau-sourire-un-avatar-femme-pour-un-site-web-et-un-reseau-social-vectoriel.jpg"
+                                    class="user-image" alt="User Image">
+                                <span class="hidden-xs">
+                                    <?php echo $_SESSION['S_NOMBRE_USUARIO']; ?>
+                                </span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header">
-                                    <img src="https://static.vecteezy.com/ti/vecteur-libre/p1/4773704-un-visage-de-fille-avec-un-beau-sourire-un-avatar-femme-pour-un-site-web-et-un-reseau-social-vectoriel.jpg" class="img-circle"
-                                        alt="User Image">
+                                    <img src="https://static.vecteezy.com/ti/vecteur-libre/p1/4773704-un-visage-de-fille-avec-un-beau-sourire-un-avatar-femme-pour-un-site-web-et-un-reseau-social-vectoriel.jpg"
+                                        class="img-circle" alt="User Image">
 
                                     <p>
-                                        <?php echo $_SESSION['S_NOMBRE_USUARIO'];?>
+                                        <?php echo $_SESSION['S_NOMBRE_USUARIO']; ?>
                                     </p>
-                                </li>
-                                <!-- Menu Body -->
-                                <li class="user-body">
-                                    <div class="row">
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Followers</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Sales</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Friends</a>
-                                        </div>
-                                    </div>
-                                    <!-- /.row -->
                                 </li>
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
@@ -312,7 +307,8 @@ if(!isset($_SESSION['S_ID_ACCESO'])){
                                         <a href="#" class="btn btn-default btn-flat">Perfil</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="../controlador/usuario/controlador_cerrar_sesion.php" class="btn btn-default btn-flat">Cerrar Sesión</a>
+                                        <a href="../controlador/usuario/controlador_cerrar_sesion.php"
+                                            class="btn btn-default btn-flat">Cerrar Sesión</a>
                                     </div>
                                 </li>
                             </ul>
@@ -332,11 +328,14 @@ if(!isset($_SESSION['S_ID_ACCESO'])){
                 <!-- Sidebar user panel -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="https://static.vecteezy.com/ti/vecteur-libre/p1/4773704-un-visage-de-fille-avec-un-beau-sourire-un-avatar-femme-pour-un-site-web-et-un-reseau-social-vectoriel.jpg" class="img-circle" alt="User Image">
+                        <img src="https://static.vecteezy.com/ti/vecteur-libre/p1/4773704-un-visage-de-fille-avec-un-beau-sourire-un-avatar-femme-pour-un-site-web-et-un-reseau-social-vectoriel.jpg"
+                            class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p><?php echo $_SESSION['S_NOMBRE_USUARIO'];?></p>
-                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                        <p>
+                            <?php echo $_SESSION['S_NOMBRE_USUARIO']; ?>
+                        </p>
+                        <a href="#"><i class="fa fa-circle text-success"></i> En línea</a>
                     </div>
                 </div>
                 <!-- search form -->
@@ -353,10 +352,10 @@ if(!isset($_SESSION['S_ID_ACCESO'])){
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">MAIN NAVIGATION</li>
+                    <li class="header">MENU PRINCIPAL</li>
                     <li class="active treeview">
                         <a onclick="cargar_contenido('contenido_principal','empresa/vista_empresas_listar.php')">
-                            <i class="fa fa-dashboard"></i> <span>Empresas y contactos</span>
+                            <i class="fa fa-building"></i> <span>Empresas y contactos</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
@@ -364,7 +363,7 @@ if(!isset($_SESSION['S_ID_ACCESO'])){
                     </li>
                     <li class="treeview">
                         <a href="#">
-                            <i class="fa fa-files-o"></i>
+                            <i class="fa fa-user"></i>
                             <span>Alumnos</span>
                             <!-- <span class="pull-right-container">
                                 <span class="label label-primary pull-right">4</span>
@@ -373,7 +372,7 @@ if(!isset($_SESSION['S_ID_ACCESO'])){
                     </li>
                     <li>
                         <a href="pages/widgets.html">
-                            <i class="fa fa-th"></i> 
+                            <i class="fa fa-check-square-o"></i>
                             <span>Supervisión de prácticas</span>
                             <!-- <span class="pull-right-container">
                                 <small class="label pull-right bg-green">new</small>
@@ -382,7 +381,7 @@ if(!isset($_SESSION['S_ID_ACCESO'])){
                     </li>
                     <li class="treeview">
                         <a href="#">
-                            <i class="fa fa-pie-chart"></i>
+                            <i class="fa fa-clone"></i>
                             <span>Ficha de supervisión</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
@@ -391,7 +390,7 @@ if(!isset($_SESSION['S_ID_ACCESO'])){
                     </li>
                     <li class="treeview">
                         <a href="#">
-                            <i class="fa fa-laptop"></i>
+                            <i class="fa fa-files-o"></i>
                             <span>Documentos</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
@@ -400,7 +399,7 @@ if(!isset($_SESSION['S_ID_ACCESO'])){
                     </li>
                     <li class="treeview">
                         <a href="#">
-                            <i class="fa fa-edit"></i> <span>Alertas</span>
+                            <i class="fa fa-clock-o"></i> <span>Alertas</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
@@ -408,12 +407,13 @@ if(!isset($_SESSION['S_ID_ACCESO'])){
                     </li>
                     <li class="treeview">
                         <a onclick="cargar_contenido('contenido_principal','usuario/vista_usuarios_listar.php')">
-                            <i class="fa fa-table"></i> <span>Usuarios</span>
+                            <i class="fa fa-users"></i> <span>Usuarios</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                     </li>
+                </ul>
             </section>
             <!-- /.sidebar -->
         </aside>
@@ -448,13 +448,13 @@ if(!isset($_SESSION['S_ID_ACCESO'])){
             </section>
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
+        <!-- <footer class="main-footer">
             <div class="pull-right hidden-xs">
                 <b>Version</b> 2.4.18
             </div>
             <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
             reserved.
-        </footer>
+        </footer> -->
 
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark" style="display: none;">
@@ -659,6 +659,33 @@ if(!isset($_SESSION['S_ID_ACCESO'])){
     <script src="../Plantilla/bower_components/jquery-ui/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
+        var idioma_espanol = {
+            select: {
+                rows: "%d fila seleccionada"
+            },
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ning&uacute;n dato disponible en esta tabla",
+            "sInfo": "Registros del (_START_ al _END_) total de _TOTAL_ registros",
+            "sInfoEmpty": "Registros del (0 al 0) total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "<b>No se encontraron datos</b>",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
         function cargar_contenido(contenedor, contenido) {
             $("#" + contenedor).load(contenido);
         }
@@ -688,10 +715,11 @@ if(!isset($_SESSION['S_ID_ACCESO'])){
     <script src="../Plantilla/bower_components/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
     <script src="../Plantilla/dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="../Plantilla/dist/js/pages/dashboard.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="../Plantilla/dist/js/demo.js"></script>
+    <script src="../Plantilla/plugins/DataTables/datatables.min.js"></script>
+    <script src="../Plantilla/plugins/select2/select2.min.js"></script>
+    <script src="../Plantilla/plugins/sweetalert2/sweetalert2.js"></script>
 </body>
 
 </html>
