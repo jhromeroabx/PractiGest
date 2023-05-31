@@ -8,7 +8,7 @@ class conexion
     public $conexion;
     public function __construct()
     {
-        $this->servidor = "127.0.0.1:3307";
+        $this->servidor = "127.0.0.1:3306";
         $this->usuario = "root";
         $this->contrasena = "";
         $this->basedatos = "practigest";
